@@ -117,7 +117,30 @@
 							 
 							 if (path.length > 0)
 							 {
-								 [self navigateToPath:path];
+                                 if (![path hasPrefix:@"/"]) {
+                                     path = [@"/" stringByAppendingString:path];
+                                 }
+                                 //Check that the path exists before going to it
+                                 BOOL isDirectory;
+                                 if ([[NSFileManager defaultManager]fileExistsAtPath:path isDirectory:&isDirectory]) {
+                                     if (isDirectory) {
+                                         [self navigateToPath:path];
+                                     } else {
+                                         UIAlertController * alert = [UIAlertController alertControllerWithTitle:@"You have provided a file, not a path." message:nil preferredStyle:UIAlertControllerStyleAlert];
+                                         UIAlertAction *okButton = [UIAlertAction actionWithTitle:@"OK" style:UIAlertActionStyleDefault handler:^(UIAlertAction * action){
+                                             
+                                         }];
+                                         [alert addAction:okButton];
+                                         [self.columnViewController presentViewController:alert animated:YES completion:nil];
+                                     }
+                                 } else {
+                                     UIAlertController * alert = [UIAlertController alertControllerWithTitle:@"This path does not exist." message:nil preferredStyle:UIAlertControllerStyleAlert];
+                                     UIAlertAction *okButton = [UIAlertAction actionWithTitle:@"OK" style:UIAlertActionStyleDefault handler:^(UIAlertAction * action){
+                                         
+                                     }];
+                                     [alert addAction:okButton];
+                                     [self.columnViewController presentViewController:alert animated:YES completion:nil];
+                                 }
 							 }
 							 
 							 [alert dismissViewControllerAnimated:YES completion:nil];
