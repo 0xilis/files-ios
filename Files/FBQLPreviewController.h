@@ -12,5 +12,5 @@
 
 @interface FBQLPreviewController : QLPreviewController
 @property (strong) FBColumnViewController *columnViewController;
-
+@property (readwrite) NSString* filePath;
 @end
