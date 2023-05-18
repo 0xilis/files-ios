@@ -356,7 +356,7 @@
 		}
 		else
 		{
-			if ([[[NSBundle mainBundle] bundleIdentifier] isEqualToString:@"com.highcaffeinecontent.Files.FilesDocumentProvider"])
+			if ([[[NSBundle mainBundle] bundleIdentifier] isEqualToString:@"com.0xilis.superfiles.FilesDocumentProvider"])
 			{
 				[[NSNotificationCenter defaultCenter] postNotificationName:@"FBPickedFileURL" object:[NSURL fileURLWithPath:newPath]];
 			}
@@ -378,6 +378,7 @@
 					
 					FBQLPreviewController *preview = [[FBQLPreviewController alloc] init];
 					preview.dataSource = self;
+					preview.filePath = newPath;
 
 					FBColumnNavigationController *detailNavController = [[FBColumnNavigationController alloc] initWithRootViewController:preview];
 					[self.columnViewController pushDetailViewController:detailNavController];
@@ -405,9 +406,9 @@
 	return 1;
 }
 
-- (id <QLPreviewItem>) previewController: (QLPreviewController *) controller previewItemAtIndex: (NSInteger) index {
-	
-	NSString *newPath = [self.path stringByAppendingPathComponent:self.files[self.tableView.indexPathForSelectedRow.row]];
+- (id <QLPreviewItem>) previewController: (FBQLPreviewController *) controller previewItemAtIndex: (NSInteger) index {
+    
+	NSString *newPath = controller.filePath;
 	
 	return [NSURL fileURLWithPath:newPath];
 }
